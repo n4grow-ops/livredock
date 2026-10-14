@@ -1,0 +1,13 @@
+# .NET build
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+# Config local do usuario (gerado em runtime)
+LivreDock/config.json
+
+# Artefatos
+publish/
+*.zip
