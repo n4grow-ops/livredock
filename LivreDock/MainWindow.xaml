@@ -12,12 +12,12 @@
         UseLayoutRounding="True"
         SnapsToDevicePixels="True">
 
-    <!-- Fundo do dock: cantos arredondados, translucido -->
-    <Border x:Name="DockPanel"
+    <!-- Fundo do dock: cantos arredondados, translucido (acrylic entra atras em runtime) -->
+    <Border x:Name="DockRoot"
             CornerRadius="18"
             Margin="12"
             Padding="10,8"
-            Background="#B0202124"
+            Background="#80202124"
             BorderBrush="#30FFFFFF"
             BorderThickness="1">
         <Border.Effect>

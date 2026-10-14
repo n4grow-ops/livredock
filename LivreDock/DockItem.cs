@@ -9,12 +9,22 @@ public sealed class DockItem
     public string Name { get; set; } = "";
     public string Path { get; set; } = "";
     public string? Args { get; set; }
+
+    /// <summary>Nome do arquivo do alvo (para casar com janelas em execucao). Vazio p/ protocolos.</summary>
+    public string ExeName
+    {
+        get
+        {
+            try { return System.IO.Path.GetFileName(Path); }
+            catch { return ""; }
+        }
+    }
 }
 
 /// <summary>Carrega/salva a lista de itens de um config.json ao lado do exe.</summary>
 public static class DockConfig
 {
-    private static readonly string ConfigPath =
+    public static string ConfigPath { get; } =
         System.IO.Path.Combine(AppContext.BaseDirectory, "config.json");
 
     private static readonly JsonSerializerOptions JsonOpts = new() { WriteIndented = true };
@@ -37,15 +47,20 @@ public static class DockConfig
         }
 
         var defaults = DefaultItems();
+        Save(defaults);
+        return defaults;
+    }
+
+    public static void Save(IEnumerable<DockItem> items)
+    {
         try
         {
-            File.WriteAllText(ConfigPath, JsonSerializer.Serialize(defaults, JsonOpts));
+            File.WriteAllText(ConfigPath, JsonSerializer.Serialize(items, JsonOpts));
         }
         catch
         {
             // somente leitura: segue sem salvar.
         }
-        return defaults;
     }
 
     private static List<DockItem> DefaultItems()
@@ -58,7 +73,7 @@ public static class DockConfig
             new() { Name = "Bloco de Notas", Path = System.IO.Path.Combine(sys, "notepad.exe") },
             new() { Name = "Calculadora", Path = System.IO.Path.Combine(sys, "calc.exe") },
             new() { Name = "Terminal", Path = System.IO.Path.Combine(sys, "cmd.exe") },
-            new() { Name = "Configurações", Path = "ms-settings:", Args = null },
+            new() { Name = "Configurações", Path = "ms-settings:" },
         };
     }
 }
