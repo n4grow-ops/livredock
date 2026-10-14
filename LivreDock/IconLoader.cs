@@ -39,7 +39,9 @@ public static class IconLoader
     {
         try
         {
-            using var icon = Drawing.SystemIcons.Application;
+            // SystemIcons.Application e um icone COMPARTILHADO do processo:
+            // nao chamar Dispose nele (sem 'using'), senao corrompe outros usos.
+            var icon = Drawing.SystemIcons.Application;
             var src = Imaging.CreateBitmapSourceFromHIcon(
                 icon.Handle,
                 Int32Rect.Empty,
