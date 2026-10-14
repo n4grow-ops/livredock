@@ -11,3 +11,6 @@ LivreDock/config.json
 # Artefatos
 publish/
 *.zip
+
+# Auditoria interna (Central Ciber)
+.ciber/
